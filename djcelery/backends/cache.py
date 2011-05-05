@@ -1,6 +1,7 @@
 """celery.backends.cache"""
 from datetime import timedelta
 
+import django
 from django.utils.encoding import smart_str
 from django.core.cache import cache, get_cache
 from django.core.cache.backends.base import InvalidCacheBackendError
@@ -41,7 +42,7 @@ try:
 except InvalidCacheBackendError:
     pass
 else:
-    if isinstance(cache, CacheClass):
+    if django.VERSION[0:2] < (1,2) and isinstance(cache, CacheClass):
         cache = DjangoMemcacheWrapper(cache)
 
 
